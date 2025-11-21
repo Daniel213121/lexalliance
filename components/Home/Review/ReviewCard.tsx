@@ -1,13 +1,16 @@
 import React from 'react'
 import { BsQuote } from 'react-icons/bs';
+import { useLocale } from '@/components/Locale/LocaleProvider'
 
 type Props = {
-    name: string;
-    review: string;
-    caseType?: string;
+        name: string;
+        review: string;
+        caseType?: string;
 }
 
-const ReviewCard = ({name, review, caseType = "Legal Client"}:Props) => {
+const ReviewCard = ({name, review, caseType}:Props) => {
+    const { t } = useLocale()
+    const displayCase = caseType ?? t('review.caseDefault')
   return (
     <div className='h-full'>
         {/* Card Container */}
@@ -30,7 +33,7 @@ const ReviewCard = ({name, review, caseType = "Legal Client"}:Props) => {
             <div className='space-y-3'>
                 <div>
                     <h3 className='text-white font-bold text-sm sm:text-base'>{name}</h3>
-                    <p className='text-amber-400 text-xs sm:text-sm font-semibold'>{caseType}</p>
+                    <p className='text-amber-400 text-xs sm:text-sm font-semibold'>{displayCase}</p>
                 </div>
             </div>
 

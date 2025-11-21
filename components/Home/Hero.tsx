@@ -2,8 +2,10 @@
 import React from 'react'
 import { ArrowRightIcon, ChevronRightIcon } from 'lucide-react'
 import Image from 'next/image'
+import { useLocale } from '@/components/Locale/LocaleProvider'
 
 const Hero = () => {
+    const { t } = useLocale()
   return (
     <div className='mx-6 pt-20' data-aos="fade-up" data-aos-duration="1000">
     <div className='flex max-xl:flex-col gap-8 max-w-7xl mx-auto my-10'>
@@ -14,18 +16,18 @@ const Hero = () => {
             
             <div className='p-5 sm:p-16 relative z-10'>
                 <div className='inline-flex items-center gap-3 bg-amber-500/15 text-amber-400 pr-4 p-1 rounded-full text-xs sm:text-sm border border-amber-500/30'>
-                    <span className='bg-amber-500 px-3 py-1 max-sm:ml-1 rounded-full text-slate-900 text-xs font-semibold'>LEGAL</span> Expert Legal Solutions for Your Business <ChevronRightIcon className='group-hover:ml-2 transition-all' size={16} />
+                    <span className='bg-amber-500 px-3 py-1 max-sm:ml-1 rounded-full text-slate-900 text-xs font-semibold'>{t('hero.pill')}</span> {t('hero.pillText')} <ChevronRightIcon className='group-hover:ml-2 transition-all' size={16} />
                 </div>
                 <h2 className='text-3xl sm:text-5xl leading-[1.2] my-3 font-bold bg-linear-to-r from-slate-100 to-amber-400 bg-clip-text text-transparent max-w-xs sm:max-w-md'>
-                    Justice You Can Trust
+                    {t('hero.title')}
                 </h2>
                 <div className='text-slate-300 text-sm font-medium mt-4 sm:mt-8'>
-                    <p>Professional Legal Services Starting at</p>
-                    <p className='text-3xl text-amber-400 font-bold'>$199</p>
+                    <p>{t('hero.priceText')}</p>
+                    <p className='text-3xl text-amber-400 font-bold'>{t('hero.priceAmount')}</p>
                 </div>
-                <button className='bg-amber-500 text-slate-900 text-sm py-2.5 px-7 sm:py-5 sm:px-12 mt-4 sm:mt-10 rounded-lg hover:bg-amber-400 hover:scale-105 active:scale-95 transition font-semibold shadow-lg hover:shadow-amber-500/50'>GET CONSULTATION</button>
+                <button className='bg-amber-500 text-slate-900 text-sm py-2.5 px-7 sm:py-5 sm:px-12 mt-4 sm:mt-10 rounded-lg hover:bg-amber-400 hover:scale-105 active:scale-95 transition font-semibold shadow-lg hover:shadow-amber-500/50'>{t('hero.cta')}</button>
             </div>
-            <Image className='sm:absolute bottom-0 right-0 md:right-10 w-full sm:max-w-sm object-cover' src='/hero/1.jpg' alt="Law firm consultation" width={400} height={400} />
+            <Image className='sm:absolute bottom-0 right-0 md:right-10 w-full sm:max-w-sm object-cover' src='/hero/1.png' alt="Law firm consultation" width={400} height={400} />
         </div>
 
         {/* Side Cards */}
@@ -36,7 +38,7 @@ const Hero = () => {
                     <p className='text-2xl sm:text-3xl font-bold bg-linear-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent max-w-40'>Expert Services</p>
                     <p className='flex items-center gap-1 mt-4 text-amber-400 hover:text-amber-300 font-semibold transition cursor-pointer'>Explore <ArrowRightIcon className='group-hover:ml-2 transition-all' size={18} /> </p>
                 </div>
-                <Image className='w-32 sm:w-40 object-cover opacity-90 group-hover:opacity-100 transition' src='/hero/2.png' alt="Legal services" width={200} height={200} />
+                <Image className='w-32 sm:w-40 object-cover opacity-90 group-hover:opacity-100 transition' src='/hero/2.jpg' alt="Legal services" width={200} height={200} />
             </div>
 
             {/* Card 2: Experience */}

@@ -3,6 +3,7 @@ import React from 'react'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ReviewCard from './ReviewCard';
+import { useLocale } from '@/components/Locale/LocaleProvider'
 
 const responsive = {
   desktop: {
@@ -22,85 +23,11 @@ const responsive = {
   }
 };
 
-const reviews = [
-  {
-    id: 1,
-    name: 'Fynley Wilkinson',
-    caseType: 'Family Law Client',
-    review: 'Excellent legal services! Highly recommend Lex Alliance for their professionalism, expertise, and compassionate approach. They went above and beyond.'
-  },
-  {
-    id: 2,
-    name: 'Sarah Mitchell',
-    caseType: 'Business Law Client',
-    review: 'Fantastic team to work with. They provided clear guidance throughout the entire process and successfully resolved our complex business matters.'
-  },
-  {
-    id: 3,
-    name: 'John Davis',
-    caseType: 'Criminal Law Client',
-    review: 'Trustworthy lawyers who truly care about their clients. From consultation to resolution, their professionalism and dedication were evident every step.'
-  },
-  {
-    id: 4,
-    name: 'Maria Rodriguez',
-    caseType: 'Family Law Client',
-    review: 'Outstanding legal representation. They listened to my concerns, explained everything clearly, and achieved an excellent outcome for my case.'
-  },
-  {
-    id: 5,
-    name: 'Robert Thompson',
-    caseType: 'Business Law Client',
-    review: 'Professional, knowledgeable, and efficient. Lex Alliance handled our contract negotiations flawlessly. Highly satisfied with their services.'
-  },
-  {
-    id: 6,
-    name: 'Emily Johnson',
-    caseType: 'Criminal Law Client',
-    review: 'Lex Alliance provided exceptional legal support during a challenging time. Their expertise and dedication led to a favorable outcome in my case.'
-  },
-  {
-    id: 7,
-    name: 'Michael Brown',
-    caseType: 'Business Law Client',
-    review: 'The team at Lex Alliance is top-notch. They provided strategic advice that helped our business navigate complex legal challenges with confidence.'
-  },
-  {
-    id: 8,
-    name: 'Olivia Wilson',
-    caseType: 'Family Law Client',
-    review: 'Compassionate and skilled attorneys. They made a difficult situation more manageable and achieved a positive resolution for my family matter.'
-  },
-  {
-    id: 9,
-    name: 'David Lee',
-    caseType: 'Criminal Law Client',
-    review: 'Highly recommend Lex Alliance for anyone in need of legal assistance. Their professionalism, expertise, and commitment to clients are unmatched.'
-  },
-  {
-    id: 10,
-    name: 'Sophia Martinez',
-    caseType: 'Business Law Client',
-    review: 'Exceptional service from start to finish. Lex Alliance provided clear communication, expert advice, and successful outcomes for our business legal needs.'
-  },
-  {
-    id: 11,
-    name: 'James Anderson',
-    caseType: 'Family Law Client',
-    review: 'Lex Alliance exceeded my expectations. Their team was attentive, knowledgeable, and dedicated to achieving the best possible outcome for my case.'
-  },
-  {
-    id: 12,
-    name: 'Isabella Garcia',
-    caseType: 'Criminal Law Client',
-    review: 'Professional and compassionate legal representation. Lex Alliance guided me through a complex legal process with expertise and care.'
-  }
-
-
-
-];
+// default reviews will be taken from translations via useLocale
 
 const ReviewSlider = () => {
+  const { t } = useLocale()
+  const reviews = (t('review.items') as any[]) || []
   return (
     <div className='py-4'>
       <style>{`

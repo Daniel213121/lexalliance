@@ -1,5 +1,7 @@
+"use client"
 import React from 'react'
 import Image from 'next/image'
+import { useLocale } from '@/components/Locale/LocaleProvider'
 import type { IconType } from 'react-icons'
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaPinterestP } from 'react-icons/fa'
 
@@ -16,49 +18,12 @@ type TeamMember = {
   role: string
   img: string
   bio: string
-  socials: SocialLink[]
+  socials?: SocialLink[]
 }
 
-const team: TeamMember[] = [
-  {
-    id: 1,
-    name: 'Michael Carter',
-    role: 'Managing Partner',
-    img: '/team/1.jpg',
-    bio: 'Leads corporate litigation with 18+ years navigating high-stakes mergers and governance disputes.',
-    socials: [
-      { id: 'facebook', label: 'Facebook', href: '#', icon: FaFacebookF },
-      { id: 'twitter', label: 'Twitter', href: '#', icon: FaTwitter },
-      { id: 'linkedin', label: 'LinkedIn', href: '#', icon: FaLinkedinIn },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Evelyn Brooks',
-    role: 'Senior Partner',
-    img: '/team/2.jpg',
-    bio: 'Specialist in cross border arbitration and strategy coach for our international practice teams.',
-    socials: [
-      { id: 'facebook', label: 'Facebook', href: '#', icon: FaFacebookF },
-      { id: 'pinterest', label: 'Pinterest', href: '#', icon: FaPinterestP },
-      { id: 'linkedin', label: 'LinkedIn', href: '#', icon: FaLinkedinIn },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Daniel Reed',
-    role: 'Associate',
-    img: '/team/3.jpg',
-    bio: 'Crafts bespoke legal solutions for venture backed startups and complex commercial contracts.',
-    socials: [
-      { id: 'twitter', label: 'Twitter', href: '#', icon: FaTwitter },
-      { id: 'linkedin', label: 'LinkedIn', href: '#', icon: FaLinkedinIn },
-      { id: 'facebook', label: 'Facebook', href: '#', icon: FaFacebookF },
-    ],
-  },
-]
-
 const Ourteam: React.FC = () => {
+  const { t } = useLocale()
+  const members = (t('team.members') as TeamMember[]) || []
   return (
     <section className='relative overflow-hidden py-16 sm:py-20 lg:py-24 bg-slate-950' data-aos="fade-up">
       <div className='pointer-events-none absolute inset-0 opacity-70'>
@@ -69,23 +34,23 @@ const Ourteam: React.FC = () => {
       <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='mx-auto flex max-w-3xl flex-col items-center gap-6 text-center' data-aos="zoom-in" data-aos-delay="100">
           <span className='inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-200'>
-            Our Team
+            {t('team.label')}
           </span>
           <h2 className='text-3xl font-semibold text-white sm:text-4xl lg:text-5xl'>
-            The people shaping your legal strategy
+            {t('team.heading')}
           </h2>
           <p className='text-sm text-slate-300 sm:text-base'>
-            Every client engagement is powered by a multidisciplinary team with proven courtroom presence, refined negotiation skills, and a relentless focus on results.
+            {t('team.description')}
           </p>
         </div>
 
         <div className='mt-14 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3'>
-          {team.map((member) => (
+          {members.map((member: any, idx: number) => (
             <article
-              key={member.id}
+              key={member.id || idx}
               className='group relative rounded-3xl border border-white/5 bg-white/5 p-1px shadow-[0_20px_60px_-30px_rgba(8,47,73,0.7)] transition-all duration-500 hover:-translate-y-2 hover:bg-amber-500/30'
               data-aos="fade-up"
-              data-aos-delay={(member.id - 1) * 150}
+              data-aos-delay={(idx) * 150}
             >
               <div className='relative flex h-full flex-col overflow-hidden rounded-[calc(1.5rem-1px)] bg-slate-900/70 backdrop-blur'>
                 <div className='absolute inset-x-6 top-4 z-10 flex justify-between'>
@@ -94,25 +59,16 @@ const Ourteam: React.FC = () => {
                   </span>
 
                   <div className='flex items-center gap-2'>
-                    {member.socials.map((social) => {
-                      const Icon = social.icon
-                      return (
-                        <a
-                          key={social.id}
-                          href={social.href}
-                          aria-label={social.label}
-                          className='inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/10 text-xs text-slate-200 transition-colors duration-300 hover:border-amber-400 hover:bg-amber-500/30 hover:text-white'
-                        >
-                          <Icon />
-                        </a>
-                      )
-                    })}
+                    {/* placeholder socials - keep empty or add default icons if needed */}
+                    <a className='inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/10 text-xs text-slate-200 transition-colors duration-300 hover:border-amber-400 hover:bg-amber-500/30 hover:text-white'>
+                      <FaLinkedinIn />
+                    </a>
                   </div>
                 </div>
 
                 <div className='relative h-72 w-full overflow-hidden bg-slate-800'>
                   <Image
-                    src={member.img}
+                    src={`/team/${member.id}.jpg`}
                     alt={member.name}
                     fill
                     sizes='(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'

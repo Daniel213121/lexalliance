@@ -2,34 +2,25 @@
 import React from 'react'
 import Image from 'next/image'
 import { Users2, Gavel, Heart } from 'lucide-react'
+import { useLocale } from '@/components/Locale/LocaleProvider'
 
 const Welcome = () => {
-  const services = [
-    {
-      id: 1,
-      title: 'Business Law',
-      description: 'Expert guidance for corporate matters, contracts, and business transactions',
-      icon: Users2,
-      image: '/welcome/18.jpg',
-      color: 'from-amber-500/20 to-amber-600/10'
-    },
-    {
-      id: 2,
-      title: 'Family Law',
-      description: 'Compassionate legal support for family matters and personal disputes',
-      icon: Heart,
-      image: '/welcome/5.jpg',
-      color: 'from-amber-500/20 to-amber-600/10'
-    },
-    {
-      id: 3,
-      title: 'Criminal Law',
-      description: 'Dedicated defense and representation in criminal proceedings',
-      icon: Gavel,
-      image: '/welcome/19.jpg',
-      color: 'from-amber-500/20 to-amber-600/10'
-    }
+  const { t } = useLocale()
+  const rawServices = (t('welcome.services') as any[]) || [
+    { id: 1, title: 'Business Law', description: 'Expert guidance for corporate matters, contracts, and business transactions', icon: Users2, image: '/welcome/18.jpg' },
+    { id: 2, title: 'Family Law', description: 'Compassionate legal support for family matters and personal disputes', icon: Heart, image: '/welcome/5.jpg' },
+    { id: 3, title: 'Criminal Law', description: 'Dedicated defense and representation in criminal proceedings', icon: Gavel, image: '/welcome/19.jpg' },
   ]
+
+  const services = rawServices.map((s) => ({
+    id: s.id,
+    title: s.title,
+    description: s.description,
+    // ensure an image path exists for Next/Image
+    image: s.image ?? (s.id === 1 ? '/welcome/18.jpg' : s.id === 2 ? '/welcome/5.jpg' : '/welcome/19.jpg'),
+    // ensure the icon is a component (fall back to our local icon components)
+    icon: s.icon ?? (s.id === 1 ? Users2 : s.id === 2 ? Heart : Gavel),
+  }))
 
   return (
     <div className='w-full bg-linear-to-b from-slate-900 via-slate-800 to-slate-900 py-16 sm:py-20 lg:py-24' data-aos="fade-up">
@@ -41,11 +32,11 @@ const Welcome = () => {
           {/* Left - Heading and Description */}
           <div className='space-y-6' data-aos="fade-right" data-aos-delay="100">
             <div>
-              <p className='text-amber-500 font-semibold text-sm sm:text-base tracking-widest uppercase mb-4'>Welcome</p>
+              <p className='text-amber-500 font-semibold text-sm sm:text-base tracking-widest uppercase mb-4'>{t('welcome.label')}</p>
               <h2 className='text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight'>
-                Reputation.<br />
+                {t('welcome.headingLine1')}<br />
                 <span className='text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-amber-300'>
-                  Respect. Result.
+                  {t('welcome.headingLine2')}
                 </span>
               </h2>
               <div className='w-16 h-1 bg-amber-500 mt-6 rounded-full'></div>
@@ -55,7 +46,7 @@ const Welcome = () => {
           {/* Right - Description Text */}
           <div className='flex flex-col justify-start' data-aos="fade-left" data-aos-delay="150">
             <p className='text-slate-300 text-base sm:text-lg leading-relaxed'>
-              We understand that legal issues can be some of the most challenging and stressful experiences in life. Whether you are dealing with a complex family matter, facing criminal charges, or navigating the intricacies of business law, our mission is to provide you with comprehensive, compassionate, and expert legal guidance. Our seasoned attorneys are committed to the highest standard of legal representation tailored to meet your unique needs.
+              {t('welcome.description')}
             </p>
           </div>
         </div>
@@ -100,7 +91,7 @@ const Welcome = () => {
 
                   {/* Read More Button */}
                   <button className='w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-3 px-6 rounded-lg transition-all duration-300 uppercase text-sm sm:text-base tracking-wide opacity-0 group-hover:opacity-100 sm:opacity-100 transform group-hover:translate-y-0 translate-y-4 group-hover:duration-500'>
-                    Read More
+                    {t('welcome.readMore')}
                   </button>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import "./globals.css";
 import ResponsiveNav from "@/components/Navbar/ResponsiveNav";
 import Footer from "@/components/footer";
 import ScrollToTop from "@/components/Helper/ScrollToTop";
+import LocaleProvider from '@/components/Locale/LocaleProvider'
 
 const font = Poppins({
   subsets: ["latin"],
@@ -25,12 +26,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${font.className} antialiased bg-slate-950 text-slate-100`}>
         <div className="flex min-h-screen flex-col">
-          <ResponsiveNav />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          <ScrollToTop />
+          <LocaleProvider>
+            <ResponsiveNav />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+            <ScrollToTop />
+          </LocaleProvider>
         </div>
       </body>
     </html>

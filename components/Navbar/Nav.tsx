@@ -2,7 +2,9 @@
 import { navLinks } from '@/constant/constant'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { useLocale } from '@/components/Locale/LocaleProvider'
 import { HiBars3BottomRight } from 'react-icons/hi2';
+import { usePathname } from 'next/navigation';
 
 type props = {
     openNav?: () => void;
@@ -11,6 +13,8 @@ type props = {
 const Nav = ({openNav}:props) => {
 
     const [navbg, setNavbg] = useState(false);
+    const { lang, toggleLang, t } = useLocale()
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -25,6 +29,45 @@ const Nav = ({openNav}:props) => {
         return () => 
             window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const frenchLabels: Record<number, string> = {
+        1: 'Accueil',
+        2: 'À propos',
+        3: 'Domaines de pratique',
+        4: 'Actualités',
+        5: 'Contact'
+    }
+
+    const normalizePath = (path: string) => {
+        if (path === '/Home') {
+            return '/home'
+        }
+        if (path === '/') {
+            return '/'
+        }
+        return path.toLowerCase().replace(/\/$/, '')
+    }
+
+    const isActive = (url: string) => {
+        const current = normalizePath(pathname || '/')
+        const target = normalizePath(url)
+
+        if (target === '/home') {
+            return current === '/home' || current === '/'
+        }
+        return current === target
+    }
+
+    const navKey = (id: number) => {
+        switch (id) {
+            case 1: return 'home'
+            case 2: return 'about'
+            case 3: return 'practice'
+            case 4: return 'news'
+            case 5: return 'contact'
+            default: return ''
+        }
+    }
   return (
   <div className={`transition-all duration-200 h-[12vh] z-50 fixed w-full ${navbg ? 'bg-slate-900/95 shadow-xl border-b border-amber-500/30' : 'bg-linear-to-r from-slate-900        via-slate-800 to-slate-900'} backdrop-blur-md shadow-lg`}>
         <div className='flex items-center h-full justify-between sm:w-[90%] w-[95%] mx-auto'>
@@ -35,25 +78,32 @@ const Nav = ({openNav}:props) => {
             </div>
             {/* Navigation Links */}
             <div className='hidden lg:flex md:hidden items-center space-x-8'>
-                {navLinks.map((link) => (
+                                                                {navLinks.map((link) => (
                     <Link
                       href={link.url}
                       key={link.id}
-                      className='text-slate-200 hover:text-amber-400 font-medium transition-colors duration-300 relative group underline decoration-slate-600/40 hover:decoration-amber-400 decoration-2 underline-offset-4'
+                      className={`font-medium transition-colors duration-300 relative group underline decoration-2 underline-offset-4 ${isActive(link.url) ? 'text-amber-400 decoration-amber-400' : 'text-slate-200 decoration-slate-600/40 hover:text-amber-400 hover:decoration-amber-400'}`}
                     >
-                      {link.label}
+                                                                                                                        {t ? (t(`nav.${navKey(link.id)}`) ?? link.label) : link.label}
                     </Link>
                 ))}
             </div>
             {/* Call to Action Button */}
             <div className='flex items-center space-x-4'>
-                <a href="tel:+1234567890" className="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-semibold text-amber-500 transition duration-300 ease-out border-2 border-amber-500 rounded-lg shadow-md hover:shadow-lg group hover:bg-amber-50">
-                <span className="absolute inset-0 flex items-center justify-center w-full h-full text-slate-900 duration-300 -translate-x-full bg-amber-500 group-hover:translate-x-0 ease">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                </span>
-                <span className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover:translate-x-full ease">Call Now</span>
-                <span className="relative invisible">Call Now</span>
-                </a>
+                {/* Language toggle button replaces previous Call Now CTA */}
+                <button
+                    onClick={toggleLang}
+                    aria-label={lang === 'en' ? 'Switch to French' : 'Passer en anglais'}
+                    className="relative inline-flex items-center justify-center px-4 py-2 overflow-hidden font-semibold text-amber-500 transition duration-300 ease-out border-2 border-amber-500 rounded-lg shadow-md hover:shadow-lg group hover:bg-amber-50"
+                >
+                    <span className="absolute inset-0 flex items-center justify-center w-full h-full text-slate-900 duration-300 -translate-x-full bg-amber-500 group-hover:translate-x-0 ease">
+                        {lang === 'en' ? 'FR' : 'EN'}
+                    </span>
+                    <span className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover:translate-x-full ease">
+                        {lang === 'en' ? 'Français' : 'English'}
+                    </span>
+                    <span className="relative invisible">{lang === 'en' ? 'Français' : 'English'}</span>
+                </button>
                 <HiBars3BottomRight onClick={openNav} className='w-8 h-8 cursor-pointer text-white lg:hidden'/>
             </div>
         </div>
